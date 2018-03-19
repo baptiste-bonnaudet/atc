@@ -161,8 +161,6 @@ var _ = BeforeEach(func() {
 			checkWorkerTeamAccessHandlerFactory,
 		),
 
-		oAuthBaseURL,
-
 		dbTeamFactory,
 		dbPipelineFactory,
 		dbWorkerFactory,
@@ -182,8 +180,6 @@ var _ = BeforeEach(func() {
 		fakeScannerFactory,
 
 		sink,
-
-		expire,
 
 		isTLSEnabled,
 

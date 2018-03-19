@@ -2,7 +2,6 @@
 package dbfakes
 
 import (
-	"encoding/json"
 	"sync"
 	"time"
 
@@ -40,14 +39,14 @@ type FakeTeam struct {
 	adminReturnsOnCall map[int]struct {
 		result1 bool
 	}
-	AuthStub        func() map[string]*json.RawMessage
+	AuthStub        func() map[string][]string
 	authMutex       sync.RWMutex
 	authArgsForCall []struct{}
 	authReturns     struct {
-		result1 map[string]*json.RawMessage
+		result1 map[string][]string
 	}
 	authReturnsOnCall map[int]struct {
-		result1 map[string]*json.RawMessage
+		result1 map[string][]string
 	}
 	DeleteStub        func() error
 	deleteMutex       sync.RWMutex
@@ -317,10 +316,10 @@ type FakeTeam struct {
 		result1 db.CreatingContainer
 		result2 error
 	}
-	UpdateProviderAuthStub        func(auth map[string]*json.RawMessage) error
+	UpdateProviderAuthStub        func(auth map[string][]string) error
 	updateProviderAuthMutex       sync.RWMutex
 	updateProviderAuthArgsForCall []struct {
-		auth map[string]*json.RawMessage
+		auth map[string][]string
 	}
 	updateProviderAuthReturns struct {
 		result1 error
@@ -452,7 +451,7 @@ func (fake *FakeTeam) AdminReturnsOnCall(i int, result1 bool) {
 	}{result1}
 }
 
-func (fake *FakeTeam) Auth() map[string]*json.RawMessage {
+func (fake *FakeTeam) Auth() map[string][]string {
 	fake.authMutex.Lock()
 	ret, specificReturn := fake.authReturnsOnCall[len(fake.authArgsForCall)]
 	fake.authArgsForCall = append(fake.authArgsForCall, struct{}{})
@@ -473,22 +472,22 @@ func (fake *FakeTeam) AuthCallCount() int {
 	return len(fake.authArgsForCall)
 }
 
-func (fake *FakeTeam) AuthReturns(result1 map[string]*json.RawMessage) {
+func (fake *FakeTeam) AuthReturns(result1 map[string][]string) {
 	fake.AuthStub = nil
 	fake.authReturns = struct {
-		result1 map[string]*json.RawMessage
+		result1 map[string][]string
 	}{result1}
 }
 
-func (fake *FakeTeam) AuthReturnsOnCall(i int, result1 map[string]*json.RawMessage) {
+func (fake *FakeTeam) AuthReturnsOnCall(i int, result1 map[string][]string) {
 	fake.AuthStub = nil
 	if fake.authReturnsOnCall == nil {
 		fake.authReturnsOnCall = make(map[int]struct {
-			result1 map[string]*json.RawMessage
+			result1 map[string][]string
 		})
 	}
 	fake.authReturnsOnCall[i] = struct {
-		result1 map[string]*json.RawMessage
+		result1 map[string][]string
 	}{result1}
 }
 
@@ -1494,11 +1493,11 @@ func (fake *FakeTeam) CreateContainerReturnsOnCall(i int, result1 db.CreatingCon
 	}{result1, result2}
 }
 
-func (fake *FakeTeam) UpdateProviderAuth(auth map[string]*json.RawMessage) error {
+func (fake *FakeTeam) UpdateProviderAuth(auth map[string][]string) error {
 	fake.updateProviderAuthMutex.Lock()
 	ret, specificReturn := fake.updateProviderAuthReturnsOnCall[len(fake.updateProviderAuthArgsForCall)]
 	fake.updateProviderAuthArgsForCall = append(fake.updateProviderAuthArgsForCall, struct {
-		auth map[string]*json.RawMessage
+		auth map[string][]string
 	}{auth})
 	fake.recordInvocation("UpdateProviderAuth", []interface{}{auth})
 	fake.updateProviderAuthMutex.Unlock()
@@ -1517,7 +1516,7 @@ func (fake *FakeTeam) UpdateProviderAuthCallCount() int {
 	return len(fake.updateProviderAuthArgsForCall)
 }
 
-func (fake *FakeTeam) UpdateProviderAuthArgsForCall(i int) map[string]*json.RawMessage {
+func (fake *FakeTeam) UpdateProviderAuthArgsForCall(i int) map[string][]string {
 	fake.updateProviderAuthMutex.RLock()
 	defer fake.updateProviderAuthMutex.RUnlock()
 	return fake.updateProviderAuthArgsForCall[i].auth

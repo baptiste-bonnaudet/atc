@@ -14,7 +14,6 @@ import (
 	"github.com/sclevine/agouti"
 
 	"github.com/concourse/atc/api/auth"
-	"github.com/concourse/skymarshal/provider"
 	"github.com/lib/pq"
 )
 
@@ -55,7 +54,7 @@ var _ = Describe("TLS", func() {
 		Expect(err).NotTo(HaveOccurred())
 
 		defer resp.Body.Close()
-		var atcToken provider.AuthToken
+		var atcToken map[string]string
 		body, err := ioutil.ReadAll(resp.Body)
 		Expect(err).NotTo(HaveOccurred())
 
@@ -65,8 +64,8 @@ var _ = Describe("TLS", func() {
 		return &http.Client{
 			Transport: &oauth2.Transport{
 				Source: oauth2.StaticTokenSource(&oauth2.Token{
-					TokenType:   atcToken.Type,
-					AccessToken: atcToken.Value,
+					TokenType:   atcToken["type"],
+					AccessToken: atcToken["value"],
 				}),
 				Base: &http.Transport{
 					TLSClientConfig: &tls.Config{InsecureSkipVerify: true},

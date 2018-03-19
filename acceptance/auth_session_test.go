@@ -7,7 +7,6 @@ import (
 	. "github.com/sclevine/agouti/matchers"
 
 	"github.com/concourse/atc/api/auth"
-	"github.com/concourse/skymarshal/provider"
 
 	"encoding/json"
 	"io/ioutil"
@@ -128,8 +127,8 @@ var _ = Describe("Auth Session", func() {
 	})
 
 	Context("when request has authorization token in header", func() {
-		var atcToken provider.AuthToken
 		var client *http.Client
+		var atcToken map[string]string
 
 		BeforeEach(func() {
 			request, err := http.NewRequest("GET", atcCommand.URL("/api/v1/teams/main/auth/token"), nil)
@@ -152,7 +151,7 @@ var _ = Describe("Auth Session", func() {
 		It("does not require CSRF token", func() {
 			request, err := http.NewRequest("GET", atcCommand.URL("/api/v1/teams/main/pipelines/main"), nil)
 			Expect(err).NotTo(HaveOccurred())
-			request.Header.Add("Authorization", atcToken.Type+" "+atcToken.Value)
+			request.Header.Add("Authorization", atcToken["type"]+" "+atcToken["value"])
 
 			response, err := client.Do(request)
 			Expect(err).NotTo(HaveOccurred())
